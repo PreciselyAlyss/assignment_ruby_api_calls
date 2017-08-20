@@ -21,7 +21,7 @@ class RepoAssignment
     begin
       @repos = github.repos.list[0..high].map { |repo| repo['name'] }
     rescue Github::Error::GithubError => e
-      puts e.message
+      p e.message
       if e.is_a? Github::Error::ServiceError
         logger.error "Service error occurred"
       elsif e.is_a? Github::Error::ClientError
@@ -32,6 +32,7 @@ class RepoAssignment
 
   def list_commits
     # include sleep
+    # TODO: Add error handling
     @repos.each do |repo_name|
       p "Last 10 commit messages for #{repo_name}:"
       commits = github.repos
